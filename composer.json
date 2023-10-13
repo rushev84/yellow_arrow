@@ -1,0 +1,9 @@
+{
+  "name": "rushev84/yellow_arrow",
+  "require": {},
+  "autoload": {
+    "psr-4": {
+      "": "./"
+     }
+   }
+}
