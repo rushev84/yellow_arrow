@@ -3,20 +3,26 @@
 
 class Train
 {
-    private array $carriages;
+    public array $cars;
 
     /**
      * Train constructor.
+     * @param int $equatorLength
+     * @param int $carLength
      */
-    public function __construct(int $lengthOfEquator)
+    public function __construct(int $equatorLength, int $carLength)
     {
-        $lengthOfCarriage = 26;
-        $numberOfCarriages = floor($lengthOfEquator / $lengthOfCarriage); // test - 38
+        $carsNumber = floor($equatorLength / $carLength); // test - 38
 
-        for ($i = 0; $i < $numberOfCarriages; $i++) {
-            $carriage = new Carriage();
-            $carriage->setRandomLight();
-            $this->carriages[] = $carriage;
+        for ($i = 0; $i < $carsNumber; $i++) {
+            $car = new Car();
+            $car->setRandomLight();
+            $this->cars[] = $car;
         }
+    }
+
+    public function getCar(int $number): Car
+    {
+        return $this->cars[$number];
     }
 }
