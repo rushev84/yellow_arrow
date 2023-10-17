@@ -4,10 +4,12 @@
 class Human
 {
     private Train $train;
+    private Car $startCar;
+
     private int $timeForOneCar;
 
     private int $carNum = 0;
-    private int $counter = 0;
+    private int $carCounter = 0;
 
     /**
      * Human constructor.
@@ -17,71 +19,43 @@ class Human
     public function __construct(Train $train, int $timeForOneCar)
     {
         $this->train = $train;
+        $this->startCar = $this->train->getCar($this->carNum);
+
         $this->timeForOneCar = $timeForOneCar;
     }
 
-
-    public function go()
+    public function go(): void
     {
-        // Получаем начальный вагон (в котором находится человек)
-        $initCar = $this->train->getCar($this->carNum);
-        // Включаем в этом вагоне свет
-        $initCar->turnOnLight();
-
-        print_r("------modified train---------" . "\n");
-        var_dump($this->train);
-
-        // Переходим в следующий вагон
+        $this->startCar->turnOnLight();
         $this->stepForward();
     }
 
-    private function stepForward()
+    private function stepForward(): void
     {
-        print_r("step_forward" . "\n");
-
-        // Увеличиваем на 1 количество пройденных вагонов
-        $this->counter++;
-        // Получаем тот вагон, в который только что зашли (т.е. следующий вагон)
+        $this->carCounter++;
         $this->carNum++;
         $currentCar = $this->train->getCar($this->carNum);
 
-        print_r("counter: {$this->counter}" . "\n");
-
-        // Если свет в вагоне горит, выключаем в нём свет и возвращаемся в изначальный вагон
         if ($currentCar->hasLight()) {
             $currentCar->turnOffLight();
             $this->goBack();
-        // Если не горит, переходим в следующий вагон
         } else {
             $this->stepForward();
         }
-
-
     }
 
-    private function goBack()
+    private function goBack(): void
     {
-        print_r("GO_BACK" . "\n");
-
-        // Увеличиваем количество пройденных вагонов на номер того вагона, с которого мы начали путь домой
-        $this->counter += $this->carNum;
-        // Мы в изначальном вагоне
+        $this->carCounter += $this->carNum;
         $this->carNum = 0;
 
-        // Получаем изначальный вагон
-        $initCar = $this->train->getCar($this->carNum);
-        // Если свет в изначальном вагоне горит, значит, надо снова в путь.
-        if ($initCar->hasLight()) {
+        if ($this->startCar->hasLight()) {
             $this->stepForward();
-        // Если не горит, то ВСЁ - мы прошли круг
         } else {
-
-
             print_r("FINISH" . "\n");
-            print_r("counter: {$this->counter}" . "\n");
-            print_r("carNum: {$this->carNum}" . "\n");
+            print_r("Кол-во пройденных вагонов: {$this->carCounter}" . "\n");
+            $duration = ($this->carCounter * $this->timeForOneCar) / 60 / 60 / 24 / 365;
+            print_r("Потраченное время (лет): {$duration}" . "\n");
         }
-
-
     }
 }

@@ -20,7 +20,7 @@ class Car
         $this->hasLight = false;
     }
 
-    public function hasLight()
+    public function hasLight(): bool
     {
         return $this->hasLight;
     }
