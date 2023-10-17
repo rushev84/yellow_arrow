@@ -10,10 +10,8 @@ class Train
      * @param int $equatorLength
      * @param int $carLength
      */
-    public function __construct(int $equatorLength, int $carLength)
+    public function __construct(int $carsNumber)
     {
-        $carsNumber = floor($equatorLength / $carLength);
-
         for ($i = 0; $i < $carsNumber; $i++) {
             $car = new Car();
             $car->setRandomLight();

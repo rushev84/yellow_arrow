@@ -8,7 +8,7 @@ class Human
 
     private int $timeForOneCar;
 
-    private int $carNum = 0;
+    private int $currentCarNum = 0;
     private int $carCounter = 0;
 
     /**
@@ -19,7 +19,7 @@ class Human
     public function __construct(Train $train, int $timeForOneCar)
     {
         $this->train = $train;
-        $this->startCar = $this->train->getCar($this->carNum);
+        $this->startCar = $this->train->getCar($this->currentCarNum);
 
         $this->timeForOneCar = $timeForOneCar;
     }
@@ -33,8 +33,8 @@ class Human
     private function stepForward(): void
     {
         $this->carCounter++;
-        $this->carNum++;
-        $currentCar = $this->train->getCar($this->carNum);
+        $this->currentCarNum++;
+        $currentCar = $this->train->getCar($this->currentCarNum);
 
         if ($currentCar->hasLight()) {
             $currentCar->turnOffLight();
@@ -46,16 +46,13 @@ class Human
 
     private function goBack(): void
     {
-        $this->carCounter += $this->carNum;
-        $this->carNum = 0;
+        $this->carCounter += $this->currentCarNum;
+        $this->currentCarNum = 0;
 
         if ($this->startCar->hasLight()) {
             $this->stepForward();
         } else {
-            print_r("FINISH" . "\n");
-            print_r("Кол-во пройденных вагонов: {$this->carCounter}" . "\n");
-            $duration = ($this->carCounter * $this->timeForOneCar) / 60 / 60 / 24 / 365;
-            print_r("Потраченное время (лет): {$duration}" . "\n");
+            App::end($this->carCounter);
         }
     }
 }
