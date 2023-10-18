@@ -18,7 +18,6 @@ class Train
             $this->cars[] = $car;
         }
     }
-
     public function getCar(int $number): Car
     {
         if (isset($this->cars[$number])) {
